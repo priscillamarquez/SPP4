@@ -1,0 +1,18 @@
+// LM35 temp sensor output connected to analogue input A0
+unsigned int total = 0; // A/D readings
+float tempC; // Celcius
+float tempF; // Fahrenheit
+
+void setup() {
+  analogReference(INTERNAL); // use the internal ~1.1volt reference | change to (INTERNAL1V1) for a Mega
+  Serial.begin(9600);
+}
+
+void loop() {
+  // read the sensor
+  for (int x = 0; x < 64; x++) { // 64(max) analogue readings for averaging
+    total = total + analogRead(A0); // add each value
+  }
+  // temp conversion
+  tempC = total * 0.001632; // value to tempC >>> change last two or three digits slightly to calibrate temp <<<
+  tempF = tempC * 1.8 + 32; // Celcius to Fahrenheit
